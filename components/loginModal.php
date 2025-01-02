@@ -59,7 +59,7 @@ if (isset($_POST['submit'])) {
             $_SESSION['user_id'] = $row['user_id'];
             $_SESSION['username'] = $row['user_name'];
             $_SESSION['role'] = $row['role'];
-            header("Location: index.php");
+            // header("Location: index.php");
             exit();
         } else {
             echo "<script>alert('Incorrect password');</script>";
