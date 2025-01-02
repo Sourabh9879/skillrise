@@ -81,7 +81,45 @@
                 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                     <h1 class="h2">Courses</h1>
                 </div>
-    
+
+                <?php 
+                include '../components/dbconnect.php';
+                
+                // Query to fetch courses with mentor names
+                $sql = "SELECT course_title, mentor_name FROM courses";
+                $result = mysqli_query($conn, $sql);
+
+                if (mysqli_num_rows($result) > 0) {
+                    echo '
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">No.</th>
+                                <th scope="col">Course Title</th>
+                                <th scope="col">Mentor Name</th>
+                                <th scope="col">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>';
+                    
+                    $no = 1;
+                    while ($row = mysqli_fetch_assoc($result)) {
+                        echo '
+                        <tr>
+                            <th scope="row">' . $no++ . '</th>
+                            <td>' . $row['course_title'] . '</td>
+                            <td>' . $row['mentor_name'] . '</td>
+                            <td><a href="#" class="btn btn-danger btn-sm">Delete</a></td>
+                        </tr>';
+                    }
+
+                    echo '
+                        </tbody>
+                    </table>';
+                } else {
+                    echo '<p>No courses found.</p>';
+                }
+                ?>
             </main>
         </div>
     </div>

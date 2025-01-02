@@ -9,9 +9,39 @@
 </head>
 <body>
     <?php include 'header.php'
-    include 'dbconnect.php';
     ?>
         
+<!-- category container -->
+<div class="container my-3" id="ques">
+        <div class="row">
+            <?php 
+    
+    $sql = "SELECT * FROM `courses`"; 
+    $result = mysqli_query($conn, $sql);
+    while($row = mysqli_fetch_assoc($result)){
+      $courseId = $row['course_id'];
+      $courseImg = $row['course_img'];
+      $courseTitle =  $row['course_title'];
+      $courseDescription =  $row['course_desc'];
+      echo '
+      <div class="col-md-4">
+      <div class="card my-2" style="width: 18rem;">
+      <img src=" ' . $courseImg .  ' "/>
+    <div class="card-body">
+      <h5 class="card-title"><a href="courselist.php?courseId=' . $courseId . '">' . $courseTitle . '</a></h5>
+      <p class="card-text">' . substr($courseDescription, 0,90) . '...</p>
+      <a href="courselist.php?courseId=' . $courseId . '" class="btn btn-primary">View</a>
+  </div>
+</div>
+</div> ';
+    }
+    
+    
+    ?>
+            <!-- using loop to iterate over categories -->
+
+        </div>
+    </div>
 
 
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
