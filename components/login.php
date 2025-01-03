@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
     integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <title>Registration Form</title>
+    <title>Login Form</title>
   </head>
   <body>
     <div class="container mt-5">
@@ -13,34 +13,23 @@
         <div class="col-md-6">
           <div class="card">
             <div class="card-header">
-              <h2>Register</h2>
+              <h2>Login</h2>
             </div>
             <div class="card-body">
-              <form class="registration-form" action="signup.php" method="post">
-                <div class="form-group">
-                  <label for="username">Username</label>
-                  <input type="text" class="form-control" id="username" name="username" placeholder="Username" required />
-                </div>
+              <form class="login-form" action="login.php" method="post">
                 <div class="form-group">
                   <label for="email">Email</label>
-                  <input type="email" class="form-control" id="email" name="email" placeholder="Email" required />
+                  <input type="text" class="form-control" id="email" name="email" placeholder="Email" required />
                 </div>
                 <div class="form-group">
                   <label for="password">Password</label>
                   <input type="password" class="form-control" id="password" name="password" placeholder="Password" required />
                 </div>
-                <div class="form-group">
-                  <label for="role">Register as</label>
-                  <select class="form-control" id="role" name="role" required>
-                    <option value="user">User</option>
-                    <option value="mentor">Mentor</option>
-                  </select>
-                </div>
-                <button type="submit" class="btn btn-primary btn-block">Register</button>
+                <button type="submit" class="btn btn-primary btn-block">Login</button>
               </form>
             </div>
             <div class="card-footer text-center">
-              <span>Already have an Account? <a href="login.php">Login</a></span>
+              <span>Don't have an Account? <a href="signup.php">Register</a></span>
             </div>
           </div>
         </div>
@@ -62,23 +51,40 @@
 include 'dbconnect.php';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-  $username = $_POST['username'];
   $email = $_POST['email'];
   $password = $_POST['password'];
-  $role = $_POST['role'];
 
-  // Hash the password before storing it
-  $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+  // Prepare statement to fetch user by email
+  $stmt = $conn->prepare("SELECT * FROM user WHERE user_email = ?");
+  if ($stmt === false) {
+    die('Prepare failed: ' . htmlspecialchars($conn->error));
+  }
+  $stmt->bind_param("s", $email);
+  $stmt->execute();
+  $result = $stmt->get_result();
+  $user = $result->fetch_assoc();
 
-  // Prepare the SQL statement
-  $stmt = $conn->prepare("INSERT INTO user (user_name, user_email, password, role) VALUES (?, ?, ?, ?)");
-  $stmt->bind_param("ssss", $username, $email, $hashed_password, $role);
+  // Debugging: Print fetched user data
+  // echo '<pre>';
+  // print_r($user);
+  // echo '</pre>';
 
-  if ($stmt->execute()) {
-    echo "<script>alert('Registration successful');</script>";
-    header('Location: login.php');
+  if ($user && password_verify($password, $user['password'])) {
+    session_start();
+    $_SESSION['username'] = $user['username'];
+    $_SESSION['role'] = $user['role'];
+    $_SESSION['loggedin'] = true;
+
+    if ($_SESSION['role'] == 'admin') {
+      header('Location: ../admin/admdash.php');
+    } else if ($_SESSION['role'] == 'mentor') {
+      header('Location: ../mentor/menDash.php');
+    } else {
+      header('Location: ../userDash.php');
+    }
+    exit();
   } else {
-    echo "<script>alert('Registration failed');</script>";
+    echo "<script>alert('Invalid email or password');</script>";
   }
   $stmt->close();
 }
