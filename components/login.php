@@ -71,7 +71,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
   if ($user && password_verify($password, $user['password'])) {
     session_start();
-    $_SESSION['username'] = $user['username'];
+    $_SESSION['username'] = $user['user_name'];
     $_SESSION['role'] = $user['role'];
     $_SESSION['loggedin'] = true;
 

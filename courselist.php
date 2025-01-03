@@ -1,5 +1,11 @@
-<?php session_start(); ?>
+<?php session_start();
+ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
+    header("location: ./components/login.php");
+    exit();
+}
 
+
+?>
 <!doctype html>
 <html lang="en">
 
@@ -30,7 +36,7 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item active">
-                    <a class="nav-link" href="index.php">Home <span class="sr-only">(current)</span></a>
+                    <a class="nav-link" href="userDash.php">Home <span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="learning.php">My Learning</a>
@@ -41,13 +47,21 @@
                 </li>
             </ul>
             <div class="ml-auto mr-2 row">
-                <span class="navbar-text mr-3"><?php $_SESSION['username']; ?></span>
+                <span class="navbar-text mr-3"><?php echo $_SESSION['username']; ?></span>
                 <a href="logout.php" class="btn btn-outline-primary">Logout</a>
             </div>
         </div>
     </nav>
 
     <?php include 'components/dbconnect.php';?>
+
+
+    <?php 
+    
+   $sql = "SELECT * FROM `my_learning` WHERE user_id = $_SESSION[user_id]";
+    
+    
+    ?>
 
     <?php 
      $sql = "SELECT * FROM `courses` WHERE course_id = $_GET[courseId]"; 
@@ -62,7 +76,7 @@
             <h1 class="display-4 fw-bold"> ' . $courseTitle . '</h1>
             <p class="lead">' . $courseDescription . '</p>
             <hr class="my-4">
-            <a class="btn btn-primary btn-lg" href="#" role="button"></a>
+            <a class="btn btn-primary btn-lg" href="#" role="button">Add to My Learning</a>
         </div>
     </div>
     ';

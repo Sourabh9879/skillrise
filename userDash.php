@@ -25,7 +25,7 @@ session_start();
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item active">
-                    <a class="nav-link" href="index.php">Home <span class="sr-only">(current)</span></a>
+                    <a class="nav-link" href="userDash.php">Home <span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="learning.php">My Learning</a>
@@ -36,7 +36,7 @@ session_start();
                 </li>
             </ul>
             <div class="ml-auto mr-2 row">
-                <span class="navbar-text mr-3"><?php $_SESSION['username']; ?></span>
+                <span class="navbar-text mr-3"><?php echo $_SESSION['username']; ?></span>
                 <a href="logout.php" class="btn btn-outline-primary">Logout</a>
             </div>
         </div>
