@@ -69,6 +69,11 @@
                 <div class="sidebar-sticky">
                     <ul class="nav flex-column">
                         <li class="nav-item">
+                            <a class="nav-link active" href="../index.php">
+                                Home
+                            </a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link active" href="admdash.php">
                                 Dashboard
                             </a>
