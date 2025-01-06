@@ -54,11 +54,6 @@
                 <div class="sidebar-sticky">
                     <ul class="nav flex-column">
                         <li class="nav-item">
-                            <a class="nav-link active" href="../index.php">
-                                Home
-                            </a>
-                        </li>
-                        <li class="nav-item">
                             <a class="nav-link active" href="admdash.php">
                                 Dashboard
                             </a>
@@ -88,14 +83,16 @@
                 </div>
 
                 <?php 
+                session_start();
                 include '../components/dbconnect.php';
-                
+
                 if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
-                    header("location: ./components/login.php");
+                    header("location: ../components/login.php");
                     exit();
-                 }
+                }
+
                 // Query to fetch courses with mentor names
-                $sql = "SELECT course_title, mentor_name FROM courses";
+                $sql = "SELECT course_id, course_title, mentor_name FROM courses";
                 $result = mysqli_query($conn, $sql);
 
                 if (mysqli_num_rows($result) > 0) {
@@ -118,7 +115,7 @@
                             <th scope="row">' . $no++ . '</th>
                             <td>' . $row['course_title'] . '</td>
                             <td>' . $row['mentor_name'] . '</td>
-                            <td><a href="#" class="btn btn-danger btn-sm">Delete</a></td>
+                            <td><a href="delete_course.php?courseId=' . $row['course_id'] . '" class="btn btn-danger btn-sm">Delete</a></td>
                         </tr>';
                     }
 

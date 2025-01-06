@@ -54,11 +54,6 @@
                 <div class="sidebar-sticky">
                     <ul class="nav flex-column">
                         <li class="nav-item">
-                            <a class="nav-link active" href="../index.php">
-                                Home
-                            </a>
-                        </li>
-                        <li class="nav-item">
                             <a class="nav-link active" href="admdash.php">
                                 Dashboard
                             </a>
@@ -85,38 +80,52 @@
             <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4 main-content">
                 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                     <h1 class="h2">Users</h1>
-                    
                 </div>
-                <table class="table">
-  <thead>
-    <tr>
-      <th scope="col">#</th>
-      <th scope="col">First</th>
-      <th scope="col">Last</th>
-      <th scope="col">Handle</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th scope="row">1</th>
-      <td>Mark</td>
-      <td>Otto</td>
-      <td>@mdo</td>
-    </tr>
-    <tr>
-      <th scope="row">2</th>
-      <td>Jacob</td>
-      <td>Thornton</td>
-      <td>@fat</td>
-    </tr>
-    <tr>
-      <th scope="row">3</th>
-      <td colspan="2">Larry the Bird</td>
-      <td>@twitter</td>
-    </tr>
-  </tbody>
-</table>
-    
+
+                <?php 
+                session_start();
+                include '../components/dbconnect.php';
+
+                if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
+                    header("location: ../components/login.php");
+                    exit();
+                }
+
+                // Query to fetch mentors
+                $sql = "SELECT user_id, user_name, user_email FROM user WHERE role = 'user'";
+                $result = mysqli_query($conn, $sql);
+
+                if (mysqli_num_rows($result) > 0) {
+                    echo '
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">No.</th>
+                                <th scope="col">Name</th>
+                                <th scope="col">Email</th>
+                                <th scope="col">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>';
+                    
+                    $no = 1;
+                    while ($row = mysqli_fetch_assoc($result)) {
+                        echo '
+                        <tr>
+                            <th scope="row">' . $no++ . '</th>
+                            <td>' . $row['user_name'] . '</td>
+                            <td>' . $row['user_email'] . '</td>
+                            <td><a href="delete_user.php?userId=' . $row['user_id'] . '" class="btn btn-danger btn-sm">Delete</a></td>
+                        </tr>';
+                    }
+
+                    echo '
+                        </tbody>
+                    </table>';
+                } else {
+                    echo '<p>No users found.</p>';
+                }
+                ?>
             </main>
         </div>
     </div>

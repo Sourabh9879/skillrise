@@ -69,11 +69,6 @@
                 <div class="sidebar-sticky">
                     <ul class="nav flex-column">
                         <li class="nav-item">
-                            <a class="nav-link active" href="../index.php">
-                                Home
-                            </a>
-                        </li>
-                        <li class="nav-item">
                             <a class="nav-link active" href="admdash.php">
                                 Dashboard
                             </a>
@@ -98,7 +93,7 @@
             </nav>
             <?php 
             include '../components/dbconnect.php';
-            
+            session_start();
             if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
                 header("location: ../components/login.php");
                 exit();
