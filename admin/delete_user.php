@@ -14,7 +14,7 @@ if (isset($_GET['userId'])) {
     $deleteQuery = "DELETE FROM user WHERE user_id = ? AND role = 'user'";
     $deleteUser = $conn->prepare($deleteQuery);
     $deleteUser->bind_param("i", $userId);
-    $deleteUser->execute()
+    $deleteUser->execute();
 
     $deleteUser->close();
     $conn->close();

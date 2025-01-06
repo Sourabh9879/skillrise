@@ -24,7 +24,7 @@ if (isset($_GET['courseId']) && isset($_SESSION['user_id'])) {
     $insertQuery = "INSERT INTO my_learning (user_id, course_id, course_title) VALUES (?, ?, ?)";
     $insertQueryResult = $conn->prepare($insertQuery);
     $insertQueryResult->bind_param("iis", $userId, $courseId, $courseTitle);
-    $insertQueryResult->execute()
+    $insertQueryResult->execute();
 
     $insertQueryResult->close();
     $conn->close();

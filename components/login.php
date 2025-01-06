@@ -54,20 +54,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   $email = $_POST['email'];
   $password = $_POST['password'];
 
-  // Prepare statement to fetch user by email
   $selectQuery = $conn->prepare("SELECT * FROM user WHERE user_email = ?");
-  if ($selectQuery === false) {
-    die('Prepare failed: ' . htmlspecialchars($conn->error));
-  }
   $selectQuery->bind_param("s", $email);
   $selectQuery->execute();
   $result = $selectQuery->get_result();
   $user = $result->fetch_assoc();
-
-  // Debugging: Print fetched user data
-  // echo '<pre>';
-  // print_r($user);
-  // echo '</pre>';
 
   if ($user && password_verify($password, $user['password'])) {
     session_start();
