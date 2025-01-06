@@ -99,6 +99,10 @@
             <?php 
             include '../components/dbconnect.php';
             
+            if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
+                header("location: ../components/login.php");
+                exit();
+             }
             // count total users
             $sql = "SELECT * FROM `user` WHERE `role` = 'user';";
             $result = $conn->query($sql);

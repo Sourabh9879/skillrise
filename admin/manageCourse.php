@@ -90,6 +90,10 @@
                 <?php 
                 include '../components/dbconnect.php';
                 
+                if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
+                    header("location: ./components/login.php");
+                    exit();
+                 }
                 // Query to fetch courses with mentor names
                 $sql = "SELECT course_title, mentor_name FROM courses";
                 $result = mysqli_query($conn, $sql);
