@@ -11,20 +11,15 @@ if (isset($_GET['mentorId'])) {
     $mentorId = $_GET['mentorId'];
 
     // Delete mentor from user table
-    $query = "DELETE FROM user WHERE user_id = ? AND role = 'mentor'";
-    $stmt = $conn->prepare($query);
-    $stmt->bind_param("i", $mentorId);
+    $deleteQuery = "DELETE FROM user WHERE user_id = ? AND role = 'mentor'";
+    $deleteMentor = $conn->prepare($deleteQuery);
+    $deleteMentor->bind_param("i", $mentorId);
+    $deleteMentor->execute();
 
-    if ($stmt->execute()) {
-        $_SESSION['message'] = "Mentor deleted successfully.";
-    } else {
-        $_SESSION['message'] = "Failed to delete mentor. Error: " . $stmt->error;
-    }
-
-    $stmt->close();
+    $deleteMentor->close();
     $conn->close();
 } else {
-    $_SESSION['message'] = "Invalid request.";
+    echo '<script>alert("Invalid request")</script>';
 }
 
 header("Location: viewMentor.php");

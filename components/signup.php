@@ -67,19 +67,28 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   $password = $_POST['password'];
   $role = $_POST['role'];
 
+  $selectQuery = $conn->prepare("SELECT user_email FROM user WHERE user_email = ?");
+  $selectQuery->bind_param("s", $email);
+  $selectQuery->execute();
+  $selectQuery->store_result();
+
+  if ($selectQuery->num_rows > 0) {
+    echo "<script>alert('Email already exists');</script>";
+  } else {
   // Hash the password before storing it
   $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
   // Prepare the SQL statement
-  $stmt = $conn->prepare("INSERT INTO user (user_name, user_email, password, role) VALUES (?, ?, ?, ?)");
-  $stmt->bind_param("ssss", $username, $email, $hashed_password, $role);
+  $InsertQuery = $conn->prepare("INSERT INTO user (user_name, user_email, password, role) VALUES (?, ?, ?, ?)");
+  $InsertQuery->bind_param("ssss", $username, $email, $hashed_password, $role);
 
-  if ($stmt->execute()) {
+  if ($InsertQuery->execute()) {
     echo "<script>alert('Registration successful');</script>";
     header('Location: login.php');
   } else {
     echo "<script>alert('Registration failed');</script>";
   }
-  $stmt->close();
+}
+  $selectQuery->close();
 }
 ?>

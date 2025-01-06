@@ -11,30 +11,15 @@ if (isset($_GET['courseId']) && isset($_SESSION['user_id'])) {
     $courseId = $_GET['courseId'];
     $userId = $_SESSION['user_id'];
 
-    // Fetch course title
-    $courseQuery = "SELECT course_title FROM courses WHERE course_id = ?";
-    $courseStmt = $conn->prepare($courseQuery);
-    $courseStmt->bind_param("i", $courseId);
-    $courseStmt->execute();
-    $courseResult = $courseStmt->get_result();
-    $course = $courseResult->fetch_assoc();
-    $courseTitle = $course['course_title'];
-
-    // Remove course from my_learning
     $query = "DELETE FROM my_learning WHERE user_id = ? AND course_id = ?";
-    $stmt = $conn->prepare($query);
-    $stmt->bind_param("ii", $userId, $courseId);
+    $deleteQuery = $conn->prepare($query);
+    $deleteQuery->bind_param("ii", $userId, $courseId);
+    $deleteQuery->execute();
 
-    if ($stmt->execute()) {
-        $_SESSION['message'] = "Course '$courseTitle' removed from your learning list.";
-    } else {
-        $_SESSION['message'] = "Failed to remove course '$courseTitle'.";
-    }
-
-    $stmt->close();
+    $deleteQuery->close();
     $conn->close();
 } else {
-    $_SESSION['message'] = "Invalid request.";
+   echo '<script>alert("Invalid request")</script>';
 }
 
 header("Location: userDash.php");

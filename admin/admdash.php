@@ -99,18 +99,18 @@
                 exit();
              }
             // count total users
-            $sql = "SELECT * FROM `user` WHERE `role` = 'user';";
-            $result = $conn->query($sql);
+            $selectUser = "SELECT * FROM `user` WHERE `role` = 'user';";
+            $result = $conn->query($selectUser);
             $user = $result ? $result->num_rows : 0;
 
             // count total mentors
-            $sql = "SELECT * FROM `user` WHERE `role` = 'mentor';";
-            $result = $conn->query($sql);
+            $selectMentor = "SELECT * FROM `user` WHERE `role` = 'mentor';";
+            $result = $conn->query($selectMentor);
             $mentor = $result ? $result->num_rows : 0;
 
             // count total courses
-            $sql = "SELECT * FROM `courses`;";
-            $result = $conn->query($sql);
+            $countCourses = "SELECT * FROM `courses`;";
+            $result = $conn->query($countCourses);
             $course = $result ? $result->num_rows : 0;
             ?>
             <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4 main-content">

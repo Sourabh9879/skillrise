@@ -55,13 +55,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   $password = $_POST['password'];
 
   // Prepare statement to fetch user by email
-  $stmt = $conn->prepare("SELECT * FROM user WHERE user_email = ?");
-  if ($stmt === false) {
+  $selectQuery = $conn->prepare("SELECT * FROM user WHERE user_email = ?");
+  if ($selectQuery === false) {
     die('Prepare failed: ' . htmlspecialchars($conn->error));
   }
-  $stmt->bind_param("s", $email);
-  $stmt->execute();
-  $result = $stmt->get_result();
+  $selectQuery->bind_param("s", $email);
+  $selectQuery->execute();
+  $result = $selectQuery->get_result();
   $user = $result->fetch_assoc();
 
   // Debugging: Print fetched user data
@@ -87,6 +87,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   } else {
     echo "<script>alert('Invalid email or password');</script>";
   }
-  $stmt->close();
+  $selectQuery->close();
 }
 ?>

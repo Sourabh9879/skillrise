@@ -7,27 +7,24 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
     exit();
 }
 
-if (!isset($_SESSION['user_id'])) {
-    die('User ID not set in session.');
-}
 
 $courseId = $_GET['courseId'];
 $userId = $_SESSION['user_id'];
 
-// Check if the course is already in "My Learning"
-$checkSql = "SELECT * FROM `my_learning` WHERE user_id = ? AND course_id = ?";
-$checkStmt = $conn->prepare($checkSql);
-$checkStmt->bind_param("ii", $userId, $courseId);
-$checkStmt->execute();
-$checkResult = $checkStmt->get_result();
+// Check if the course is already in My Learning
+$checkQuery = "SELECT * FROM `my_learning` WHERE user_id = ? AND course_id = ?";
+$checkQueryResult = $conn->prepare($checkQuery);
+$checkQueryResult->bind_param("ii", $userId, $courseId);
+$checkQueryResult->execute();
+$checkResult = $checkQueryResult->get_result();
 $isInMyLearning = $checkResult->num_rows > 0;
 
 // Fetch course details
-$sql = "SELECT * FROM `courses` WHERE course_id = ?";
-$stmt = $conn->prepare($sql);
-$stmt->bind_param("i", $courseId);
-$stmt->execute();
-$result = $stmt->get_result();
+$fetchCourse = "SELECT * FROM `courses` WHERE course_id = ?";
+$fetchCourseResult = $conn->prepare($fetchCourse);
+$fetchCourseResult->bind_param("i", $courseId);
+$fetchCourseResult->execute();
+$result = $fetchCourseResult->get_result();
 $course = $result->fetch_assoc();
 
 $courseTitle = $course['course_title'];

@@ -12,29 +12,24 @@ if (isset($_GET['courseId']) && isset($_SESSION['user_id'])) {
     $userId = $_SESSION['user_id'];
 
     // Fetch course title
-    $courseQuery = "SELECT course_title FROM courses WHERE course_id = ?";
-    $courseStmt = $conn->prepare($courseQuery);
-    $courseStmt->bind_param("i", $courseId);
-    $courseStmt->execute();
-    $courseResult = $courseStmt->get_result();
+    $fetchCourse = "SELECT course_title FROM courses WHERE course_id = ?";
+    $fetchedCourse = $conn->prepare($fetchCourse);
+    $fetchedCourse->bind_param("i", $courseId);
+    $fetchedCourse->execute();
+    $courseResult = $fetchedCourse->get_result();
     $course = $courseResult->fetch_assoc();
     $courseTitle = $course['course_title'];
 
     // Add course to my_learning
-    $query = "INSERT INTO my_learning (user_id, course_id, course_title) VALUES (?, ?, ?)";
-    $stmt = $conn->prepare($query);
-    $stmt->bind_param("iis", $userId, $courseId, $courseTitle);
+    $insertQuery = "INSERT INTO my_learning (user_id, course_id, course_title) VALUES (?, ?, ?)";
+    $insertQueryResult = $conn->prepare($insertQuery);
+    $insertQueryResult->bind_param("iis", $userId, $courseId, $courseTitle);
+    $insertQueryResult->execute()
 
-    if ($stmt->execute()) {
-        $_SESSION['message'] = "Course '$courseTitle' added to your learning list.";
-    } else {
-        $_SESSION['message'] = "Failed to add course '$courseTitle'.";
-    }
-
-    $stmt->close();
+    $insertQueryResult->close();
     $conn->close();
 } else {
-    $_SESSION['message'] = "Invalid request.";
+    echo '<script>alert("Invalid request")</script>';
 }
 
 header("Location: learning.php");

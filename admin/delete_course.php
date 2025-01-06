@@ -11,20 +11,15 @@ if (isset($_GET['courseId'])) {
     $courseId = $_GET['courseId'];
 
     // Delete course from courses table
-    $query = "DELETE FROM courses WHERE course_id = ?";
-    $stmt = $conn->prepare($query);
-    $stmt->bind_param("i", $courseId);
+    $deleteQuery = "DELETE FROM courses WHERE course_id = ?";
+    $deleteCourse = $conn->prepare($deleteQuery);
+    $deleteCourse->bind_param("i", $courseId);
+    $deleteCourse->execute();
 
-    if ($stmt->execute()) {
-        $_SESSION['message'] = "Course deleted successfully.";
-    } else {
-        $_SESSION['message'] = "Failed to delete course.";
-    }
-
-    $stmt->close();
+    $deleteCourse->close();
     $conn->close();
 } else {
-    $_SESSION['message'] = "Invalid request.";
+   echo '<script>alert("invalid request")</script>';
 }
 
 header("Location: manageCourse.php");

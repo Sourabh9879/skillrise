@@ -10,21 +10,16 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
 if (isset($_GET['userId'])) {
     $userId = $_GET['userId'];
 
-    // Delete mentor from user table
-    $query = "DELETE FROM user WHERE user_id = ? AND role = 'user'";
-    $stmt = $conn->prepare($query);
-    $stmt->bind_param("i", $userId);
+    // Delete user from user table
+    $deleteQuery = "DELETE FROM user WHERE user_id = ? AND role = 'user'";
+    $deleteUser = $conn->prepare($deleteQuery);
+    $deleteUser->bind_param("i", $userId);
+    $deleteUser->execute()
 
-    if ($stmt->execute()) {
-        $_SESSION['message'] = "User deleted successfully.";
-    } else {
-        $_SESSION['message'] = "Failed to delete mentor. Error: " . $stmt->error;
-    }
-
-    $stmt->close();
+    $deleteUser->close();
     $conn->close();
 } else {
-    $_SESSION['message'] = "Invalid request.";
+   echo '<script>alert("Invalid request")</script>';
 }
 
 header("Location: viewUser.php");
