@@ -19,7 +19,7 @@ $mentorId = $_SESSION['user_id'];
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mentor Dashboard</title>
-    
+
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
@@ -64,7 +64,8 @@ $mentorId = $_SESSION['user_id'];
         height: 400px;
         margin: auto;
     }
-    .navbar-nav{
+
+    .navbar-nav {
         flex-direction: row;
     }
     </style>
@@ -112,14 +113,22 @@ $mentorId = $_SESSION['user_id'];
                 </div>
             </nav>
             <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4 main-content">
-            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                <div
+                    class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                     <h1 class="h2">Courses</h1>
                 </div>
 
                 <?php 
     
-                $sql = "SELECT course_title, course_id FROM courses WHERE mentor_id = $mentorId";
-                $result = mysqli_query($conn, $sql);
+    $sql = "SELECT courses.course_title, user.user_name 
+    FROM my_learning 
+    JOIN courses ON my_learning.course_id = courses.course_id 
+    JOIN user ON my_learning.user_id = user.user_id 
+    WHERE courses.mentor_id = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("i", $mentorId);
+    $stmt->execute();
+    $result = $stmt->get_result();
 
                 if (mysqli_num_rows($result) > 0) {
                     echo '
@@ -128,7 +137,7 @@ $mentorId = $_SESSION['user_id'];
                             <tr>
                                 <th scope="col">No.</th>
                                 <th scope="col">Course Title</th>
-                                <th scope="col">Action</th>
+                                <th scope="col">Name</th>
                             </tr>
                         </thead>
                         <tbody>';
@@ -139,7 +148,7 @@ $mentorId = $_SESSION['user_id'];
                         <tr>
                             <th scope="row">' . $no++ . '</th>
                             <td>' . $row['course_title'] . '</td>
-                            <td><a href="removeCourse.php?courseId=' . $row['course_id'] . '" class="btn btn-danger btn-sm">Delete</a></td>
+                            <td>' . $row['user_name'] . '</td>
                         </tr>';
                     }
 
@@ -150,9 +159,9 @@ $mentorId = $_SESSION['user_id'];
                     echo '<p>No courses found.</p>';
                 }
                 ?>
-                
-                    
-                
+
+
+
             </main>
         </div>
     </div>
