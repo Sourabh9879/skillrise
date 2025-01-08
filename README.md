@@ -26,7 +26,7 @@ SkillRise is a web-based platform designed to manage and facilitate online cours
 
 4. Configure Database Connection: Update the database credentials in dbconnect.php:
 
-Database Configuration
+## dDatabase Configuration
 Ensure the following tables are created in the skillrise database:
 
     user: Stores user information.
@@ -50,31 +50,34 @@ Ensure the following tables are created in the skillrise database:
 ## File Descriptions
 
 add_course.php: Adds a course to the user's learning list.
-admin/
-    admindash.php
-    delete_course.php
-    delete_mentor.php
-    delete_user.php
-    manageCourse.php
-    viewMentor.php
-    viewUser.php
-components/
-    dbconnect.php
-    login.php
-    signup.php
-courselist.php
-index.php
-learning.php
-logout.php
-mentor/
-    addCourse.php
-    menDash.php
-    mycourses.php
-    removeCourse.php
-    userEnrolled.php
-README.md
-remove_course.php: Removes a course from the user's learning list.
-userDash.php: User dashboard.
+    admdash.php: Admin dashboard.
+    ## Admin Directory:
+    delete_course.php: Deletes a course.
+    delete_mentor.php: Deletes a mentor.
+    delete_user.php: Deletes a user.
+    manageCourse.php: Manages courses.
+    viewMentor.php: Views mentors.
+    viewUser.php: Views users.
+
+## Components Directory:
+
+    dbconnect.php: Database connection.
+    login.php: User login.
+    signup.php: User registration.
+    courselist.php: Displays course details.
+    index.php: Home page.
+    learning.php: Displays user's enrolled courses.
+    logout.php: Logs out the user.
+
+## Mentor Directory:
+
+    addCourse.php: Adds a new course.
+    menDash.php: Mentor dashboard.
+    mycourses.php: Displays mentor's courses.
+    removeCourse.php: Removes a course.
+    userEnrolled.php: Displays users enrolled in mentor's courses.
+    remove_course.php: Removes a course from the user's learning list.
+    userDash.php: User dashboard.
 
 ## Usage
 
