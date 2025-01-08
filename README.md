@@ -14,9 +14,42 @@
 ## Introduction
 SkillRise is a web-based platform designed to manage and facilitate online courses. It supports different user roles such as Admin, Mentor, and User, each with specific functionalities.
 
-## Project Structure
+## Setup Instructions
+1. **Clone the Repository:**
+   ```sh
+   git clone <repository-url>
+   cd skillrise
 
-add_course.php
+2. Install Dependencies: Ensure you have PHP and MySQL installed on your system.
+
+3. Database Configuration: Create a MySQL database named skillrise and import the necessary tables.
+
+4. Configure Database Connection: Update the database credentials in dbconnect.php:
+
+Database Configuration
+Ensure the following tables are created in the skillrise database:
+
+    user: Stores user information.
+    courses: Stores course details.
+    my_learning: Tracks courses enrolled by users.
+
+## User Roles
+
+1. Admin:
+    Access to the admin dashboard.
+    Manage courses, mentors, and users.
+2. Mentor:
+    Access to the mentor dashboard.
+    Add and manage their courses.
+    View users enrolled in their courses.
+3. User:
+    Access to the user dashboard.
+    Enroll in courses.
+    View their enrolled courses.
+
+## File Descriptions
+
+add_course.php: Adds a course to the user's learning list.
 admin/
     admindash.php
     delete_course.php
@@ -40,69 +73,6 @@ mentor/
     removeCourse.php
     userEnrolled.php
 README.md
-remove_course.php
-userDash.php
-
-## Setup Instructions
-1. **Clone the Repository:**
-   ```sh
-   git clone <repository-url>
-   cd skillrise
-
-2. Install Dependencies: Ensure you have PHP and MySQL installed on your system.
-
-3. Database Configuration: Create a MySQL database named skillrise and import the necessary tables.
-
-4. Configure Database Connection: Update the database credentials in dbconnect.php:
-
-Database Configuration
-Ensure the following tables are created in the skillrise database:
-
-    user: Stores user information.
-    courses: Stores course details.
-    my_learning: Tracks courses enrolled by users.
-User Roles
-1. Admin:
-    Access to the admin dashboard.
-    Manage courses, mentors, and users.
-2. Mentor:
-    Access to the mentor dashboard.
-    Add and manage their courses.
-    View users enrolled in their courses.
-3. User:
-    Access to the user dashboard.
-    Enroll in courses.
-    View their enrolled courses.
-
-## File Descriptions
-
-add_course.php: Adds a course to the user's learning list.
-    admdash.php: Admin dashboard.
-    ## Admin Directory:
-    delete_course.php: Deletes a course.
-    delete_mentor.php: Deletes a mentor.
-    delete_user.php: Deletes a user.
-    manageCourse.php: Manages courses.
-    viewMentor.php: Views mentors.
-    viewUser.php: Views users.
-
-## Components Directory:
-
-    dbconnect.php: Database connection.
-    login.php: User login.
-    signup.php: User registration.
-courselist.php: Displays course details.
-index.php: Home page.
-learning.php: Displays user's enrolled courses.
-logout.php: Logs out the user.
-
-## Mentor Directory:
-
-    addCourse.php: Adds a new course.
-    menDash.php: Mentor dashboard.
-    mycourses.php: Displays mentor's courses.
-    removeCourse.php: Removes a course.
-    userEnrolled.php: Displays users enrolled in mentor's courses.
 remove_course.php: Removes a course from the user's learning list.
 userDash.php: User dashboard.
 
