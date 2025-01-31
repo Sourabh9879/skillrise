@@ -27,6 +27,6 @@ if (isset($_GET['courseId'])) {
    echo '<script>alert("invalid request.")</script>';
 }
 
-header("Location: mycourse.php");
+header("Location: mycourses.php");
 exit();
 ?>
