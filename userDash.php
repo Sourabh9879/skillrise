@@ -37,7 +37,7 @@ session_start();
             </ul>
             <div class="ml-auto mr-2 row">
                 <span class="navbar-text mr-3"><?php echo $_SESSION['username']; ?></span>
-                <a href="logout.php" class="btn btn-outline-primary">Logout</a>
+                <a href="logout.php" class="btn btn-danger">Logout</a>
             </div>
         </div>
     </nav>

@@ -77,7 +77,7 @@ $mentor_name = $_SESSION['username'];
                 <span class="navbar-text mr-3"><?php echo $mentor_name; ?></span>
             </li>
             <li class="nav-item text-nowrap">
-                <a class="nav-link" href="../logout.php">Logout</a>
+                <a class="btn btn-danger" href="../logout.php">Logout</a>
             </li>
         </ul>
     </nav>
